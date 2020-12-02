@@ -11,6 +11,17 @@ class Day2Test {
         assertThat(solution).isEqualTo(2)
     }
 
+    @Test
+    fun `From example 2`() {
+        val solution = Day2(exampleInput.lines()).calculateSecond()
+        assertThat(solution).isEqualTo(1)
+    }
+
+    @Test
+    fun sdfsdf() {
+
+    }
+
     private val exampleInput = """
         1-3 a: abcde
         1-3 b: cdefg
