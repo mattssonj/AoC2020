@@ -1,19 +1,19 @@
 package day
 
-class Day2(dirtyInput: List<String>) {
+class Day2(dirtyInput: List<String>): Solver<Int> {
 
     private val input = dirtyInput.map {
         val triple = it.split(" ")
         Triple(triple[0], triple[1], triple[2])
     }
 
-    fun calculateFirst(): Int {
+    override fun calculateFirst(): Int {
         return input.map { Pair(it.third, Policy.toMinMaxPolicy(it)) }
             .filter { (password, policy) -> policy.isValid(password) }
             .size
     }
 
-    fun calculateSecond(): Int {
+    override fun calculateSecond(): Int {
         return input.map { Pair(it.third, Policy.toCorrectCharAtPolicy(it)) }
             .filter { (password, policy) -> policy.isValid(password) }
             .size

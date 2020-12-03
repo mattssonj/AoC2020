@@ -1,6 +1,6 @@
 package day
 
-class Day3(private val map: List<String>) {
+class Day3(private val map: List<String>) : Solver<Long> {
 
     private val maxWidth = map[0].length
     private val maxDepth = map.size
@@ -14,11 +14,11 @@ class Day3(private val map: List<String>) {
 
     private var currentPosition = Position(0, 0)
 
-    fun calculateFirst(): Int {
-        return moveDownTheMapAndFindTrees(1)
+    override fun calculateFirst(): Long {
+        return moveDownTheMapAndFindTrees(1).toLong()
     }
 
-    fun calculateSecond(): Long {
+    override fun calculateSecond(): Long {
         return (moves.indices)
             .map { moveDownTheMapAndFindTrees(it) }
             .map { it.toLong() } // The value gets to big for an Int

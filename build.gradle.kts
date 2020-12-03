@@ -13,6 +13,9 @@ repositories {
 }
 
 dependencies {
+    implementation("io.ktor:ktor-client-cio:1.4.0")
+
+    testImplementation ("io.kotest:kotest-runner-junit5:4.3.1")
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
@@ -24,6 +27,10 @@ tasks.test {
 
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 application {

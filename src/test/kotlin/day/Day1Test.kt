@@ -1,6 +1,6 @@
 package day
 
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
 class Day1Test {
@@ -17,13 +17,13 @@ class Day1Test {
     @Test
     fun `From example 1`() {
         val result = Day1(exampleInput).calculateFirst()
-        assertThat(result).isEqualTo(514579)
+        result shouldBe 514579
     }
 
     @Test
     fun `From example 2`() {
         val result = Day1(exampleInput).calculateSecond()
-        assertThat(result).isEqualTo(241861950)
+        result shouldBe 241861950
     }
 
 }

@@ -1,19 +1,44 @@
-import day.Day1
-import day.Day2
-import day.Day3
+import day.Solver
+import io.ktor.client.*
 import java.io.File
 
 fun main() {
 
-    println("Result of Day 1 part 1 = ${Day1(readInput(1)).calculateFirst()}")
-    println("Result of Day 1 part 2 = ${Day1(readInput(1)).calculateSecond()}")
+    val daysSolved = 3
 
-    println("Result of Day 2 part 1 = ${Day2(readInput(2)).calculateFirst()}")
-    println("Result of Day 2 part 2 = ${Day2(readInput(2)).calculateSecond()}")
 
-    println("Result of Day 3 part 1 = ${Day3(readInput(3)).calculateFirst()}")
-    println("Result of Day 3 part 2 = ${Day3(readInput(3)).calculateSecond()}")
+    (1..daysSolved).forEach {
+        collectInputIfNotExisting(it)
+        println("Solutions for Day $it")
+        val (part1, part2) = getSolutionsForDay(it)
+        println("Part 1 = $part1")
+        println("Part 2 = $part2")
+    }
 
+}
+
+fun collectInputIfNotExisting(day: Int) {
+
+    val fileName = "day$day.txt"
+    val file = File(fileName)
+    if (file.exists()) return
+
+    val input = collectInput(day)
+
+}
+
+fun collectInput(day: Int) {
+
+    val client = HttpClient()
+    // curl https://adventofcode.com/2018/day/DAY/input --cookie "session=SESSION"
+
+}
+
+fun getSolutionsForDay(day: Int): Pair<String, String> {
+    val dayObject = Class.forName("day.Day${day}")
+        ?.getDeclaredConstructor(List::class.java)
+        ?.newInstance(readInput(day)) as Solver<*>
+    return Pair(dayObject.calculateFirst().toString(), dayObject.calculateSecond().toString())
 }
 
 fun readInput(day: Int): List<String> = File("src/main/resources/input/day$day.txt").readLines()

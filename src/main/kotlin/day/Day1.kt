@@ -1,11 +1,11 @@
 package day
 
-class Day1(dirtyInput: List<String>) {
+class Day1(dirtyInput: List<String>): Solver<Int> {
 
     private val input: List<Int> = dirtyInput.map { it.toInt() }
     private val sumToReach = 2020
 
-    fun calculateFirst(): Int {
+    override fun calculateFirst(): Int {
 
         input.forEachIndexed { index, i ->
             val corresponding = findCorresponding(index, i)
@@ -17,7 +17,7 @@ class Day1(dirtyInput: List<String>) {
 
     }
 
-    fun calculateSecond(): Int {
+    override fun calculateSecond(): Int {
 
         input.forEachIndexed { indexI, i ->
             input.subList(indexI + 1, input.size).forEachIndexed { indexJ, j ->
