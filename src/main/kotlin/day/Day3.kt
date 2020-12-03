@@ -45,16 +45,16 @@ class Day3(private val map: List<String>) {
     }
 
     private fun isCurrentPositionATree(): Boolean {
-        return (currentArea() == Area.TREE)
+        return (areaOfCurrentPosition() == Area.TREE)
     }
 
-    private fun currentArea(): Area {
+    private fun areaOfCurrentPosition(): Area {
         return if (map[currentPosition.y].elementAt(currentPosition.x) == '#') Area.TREE
         else Area.OPEN
     }
 
-    private fun move(move: Int) {
-        val activeMove = moves[move]
+    private fun move(indexOfMove: Int) {
+        val activeMove = moves[indexOfMove]
         currentPosition = Position(currentPosition.x + activeMove.stepX, currentPosition.y + activeMove.stepY)
         if (isOutOfMap()) currentPosition = currentPosition.copy(x = currentPosition.x - maxWidth)
     }
