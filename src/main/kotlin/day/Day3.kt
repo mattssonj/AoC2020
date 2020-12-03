@@ -45,12 +45,7 @@ class Day3(private val map: List<String>) {
     }
 
     private fun isCurrentPositionATree(): Boolean {
-        return (areaOfCurrentPosition() == Area.TREE)
-    }
-
-    private fun areaOfCurrentPosition(): Area {
-        return if (map[currentPosition.y].elementAt(currentPosition.x) == '#') Area.TREE
-        else Area.OPEN
+        return map[currentPosition.y].elementAt(currentPosition.x) == '#'
     }
 
     private fun move(indexOfMove: Int) {
@@ -65,9 +60,4 @@ class Day3(private val map: List<String>) {
 }
 
 data class Position(val x: Int, val y: Int)
-enum class Area {
-    TREE,
-    OPEN
-}
-
 data class Move(val stepX: Int, val stepY: Int)
