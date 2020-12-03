@@ -17,11 +17,6 @@ class Day2Test {
         assertThat(solution).isEqualTo(1)
     }
 
-    @Test
-    fun sdfsdf() {
-
-    }
-
     private val exampleInput = """
         1-3 a: abcde
         1-3 b: cdefg
