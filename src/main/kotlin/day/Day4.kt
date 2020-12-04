@@ -32,7 +32,6 @@ private fun String.hasRequiredFields(): Boolean {
 }
 
 private fun String.hasValidFieldValues(): Boolean {
-    if (!this.hasRequiredFields()) return false
     return this.isValidByr() &&
             this.isValidEcl() &&
             this.isValidEyr() &&
