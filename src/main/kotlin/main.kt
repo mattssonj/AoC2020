@@ -7,7 +7,7 @@ import java.io.File
 const val inputPath = "src/main/resources/input/"
 
 fun main() {
-    val daysSolved = 3
+    val daysSolved = 4
 
     (1..daysSolved).forEach {
         collectInputIfNotExisting(it)
