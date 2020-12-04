@@ -47,7 +47,7 @@ private fun String.isValidEyr() = this.extractValue("eyr").toInt() in 2020..2030
 private fun String.isValidHcl() = this.extractValue("hcl").contains(Regex("^#{1}[a-f0-9]+\$"))
 private fun String.isValidPid() = this.extractValue("pid").contains(Regex("^[0-9]{9}\$"))
 private fun String.isValidEcl() =
-    this.extractValue("ecl").contains(Regex("^(brn)|(amb)|(blu)|(gry)|(grn)|(hzl)|(oth)\$"))
+    this.extractValue("ecl").contains(Regex("^(brn|amb|blu|gry|grn|hzl|oth)\$"))
 
 private fun String.isValidHgt(): Boolean {
     val hgt = this.extractValue("hgt")

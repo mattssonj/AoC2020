@@ -5,6 +5,7 @@ import org.http4k.core.Request
 import java.io.File
 
 const val inputPath = "src/main/resources/input/"
+private val client = JavaHttpClient()
 
 fun main() {
     val daysSolved = 4
@@ -19,7 +20,7 @@ fun main() {
 }
 
 fun collectInputIfNotExisting(day: Int) {
-    val fileName = inputPath + "day$day.txt"
+    val fileName = "${inputPath}day$day.txt"
     val file = File(fileName)
     if (file.exists()) return
 
@@ -28,11 +29,10 @@ fun collectInputIfNotExisting(day: Int) {
 }
 
 fun collectInput(day: Int): String {
-    val client = JavaHttpClient()
     val request = Request(Method.GET, "https://adventofcode.com/2020/day/$day/input")
         .header("Cookie", "session=${Environment.SESSION}")
-    val resp = client.invoke(request)
-    return resp.bodyString()
+    val response = client.invoke(request)
+    return response.bodyString()
 }
 
 fun getSolutionsForDay(day: Int): Pair<String, String> {
