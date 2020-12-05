@@ -8,10 +8,12 @@ const val inputPath = "src/main/resources/input/"
 private val client = JavaHttpClient()
 
 fun main() {
-    val daysSolved = 4
+    val daysSolved = 5
+    val onlyPrintLatest = true
 
     (1..daysSolved).forEach {
         collectInputIfNotExisting(it)
+        if (onlyPrintLatest && it != daysSolved) return@forEach
         println("Solutions for Day $it")
         val (part1, part2) = getSolutionsForDay(it)
         println("Part 1 = $part1")
