@@ -9,23 +9,25 @@ class Day5(private val dirtyInput: List<String>) : Solver<Int> {
     override fun calculateSecond(): Int {
         return getAllIds()
                 .sorted()
-                .chunked(2)
-                .filter { if (it.size < 2) false else it[0] != it[1] - 1 }
-                .map { (first, _) -> first + 1 }
-                .first()
+                .zipWithNext { a, b -> if (a + 1 != b) a + 1 else -1 }
+                .maxOrNull() ?: 0
     }
 
     private fun getAllIds(): Sequence<Int> {
         return dirtyInput
                 .asSequence()
-                .map { Pair(it.take(7), it.takeLast(3)) }
-                .map {
-                    Pair(
-                            it.first.replace("F", "0").replace("B", "1"),
-                            it.second.replace("L", "0").replace("R", "1"))
-                }
-                .map { Pair(Integer.parseInt("${it.first}000", 2), Integer.parseInt(it.second, 2)) }
-                .map { it.first + it.second }
+                .map { BoardingPass(it).getId() }
     }
 
 }
+
+class BoardingPass(private val row: String, private val seat: String) {
+    constructor(binarySpacePartitionValue: String) : this(binarySpacePartitionValue.take(7), binarySpacePartitionValue.takeLast(3))
+
+    fun getId() = getRowAsInt() * 8 + getSeatAsInt()
+    private fun getRowAsInt() = row.toBinaryString("B", "F").fromBinaryToInt()
+    private fun getSeatAsInt() = seat.toBinaryString("R", "L").fromBinaryToInt()
+}
+
+private fun String.toBinaryString(ones: String, zeroes: String) = this.replace(ones, "1").replace(zeroes, "0")
+private fun String.fromBinaryToInt() = Integer.parseInt(this, 2)
