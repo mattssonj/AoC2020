@@ -18,7 +18,6 @@ class Day5(private val dirtyInput: List<String>) : Solver<Int> {
                 .asSequence()
                 .map { BoardingPass(it).getId() }
     }
-
 }
 
 class BoardingPass(private val row: String, private val seat: String) {
