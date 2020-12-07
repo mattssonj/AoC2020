@@ -16,7 +16,7 @@ class Day7(dirtyInput: List<String>) : Solver<Int> {
 
     override fun calculateFirst(): Int {
         return bagsWithSizes
-            .filter { containsBag(it.key) }
+            .filter { containsShinyGoldBag(it.key) }
             .size
     }
 
@@ -24,10 +24,10 @@ class Day7(dirtyInput: List<String>) : Solver<Int> {
         return countContainingBags(BAG_NAME)
     }
 
-    private fun containsBag(bagName: String): Boolean {
+    private fun containsShinyGoldBag(bagName: String): Boolean {
         val contained = bagsWithSizes.getOrDefault(bagName, emptySet())
         return if (contained.any { (bagName, _) -> bagName == BAG_NAME }) true
-        else contained.any { containsBag(it.first) }
+        else contained.any { containsShinyGoldBag(it.first) }
     }
 
     private fun countContainingBags(bagName: String): Int {
