@@ -7,12 +7,12 @@ class Day7(dirtyInput: List<String>) : Solver<Int> {
         .map { it.split(" ") }
         .map { it.windowed(4, 4) }
         .map { it.takeFirstLeaveRest() }
-        .map { (main, contained) -> Pair(parseMainBag(main), contained.map { parseContainedBag(it) }.toSet()) }
+        .map { (main, contained) -> parseMainBag(main) to contained.map { parseContainedBag(it) }.toSet() }
         .toMap()
 
     private fun parseMainBag(words: List<String>) = "${words[0]} ${words[1]}"
-    private fun parseContainedBag(words: List<String>) = Pair("${words[1]} ${words[2]}", words[0].toInt())
-    private fun List<List<String>>.takeFirstLeaveRest() = Pair(this[0], this.subList(1, this.size))
+    private fun parseContainedBag(words: List<String>) = "${words[1]} ${words[2]}" to words[0].toInt()
+    private fun List<List<String>>.takeFirstLeaveRest() = this[0] to this.subList(1, this.size)
 
     override fun calculateFirst(): Int {
         return bagsWithSizes
