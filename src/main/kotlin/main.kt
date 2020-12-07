@@ -8,7 +8,7 @@ const val inputPath = "src/main/resources/input/"
 private val client = JavaHttpClient()
 
 fun main() {
-    val daysSolved = 6
+    val daysSolved = 7
     val onlyPrintLatest = true
 
     (1..daysSolved).forEach {
