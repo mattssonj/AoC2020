@@ -36,7 +36,7 @@ class Program(private val instructions: List<Instruction>) {
     private var didComplete = false
 
     fun run() {
-        while (!visitedOperationIndex.contains(memory.operation)) {
+        while (!isInInfiniteLoop()) {
             visitedOperationIndex.add(memory.operation)
             memory = instructions[memory.operation].execute(memory)
             didComplete = memory.operation >= instructions.size
@@ -44,6 +44,7 @@ class Program(private val instructions: List<Instruction>) {
         }
     }
 
+    private fun isInInfiniteLoop() = visitedOperationIndex.contains(memory.operation)
     fun accumulatorValue() = memory.accumulator
     fun didComplete() = didComplete
 
