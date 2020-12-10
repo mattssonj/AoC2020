@@ -17,29 +17,30 @@ class Day10(dirtyInput: List<String>) : Solver<Long> {
     }
 
     override fun calculateSecond(): Long {
-        return calculateAdapterConnections(input)
+        return calculateAdapterConnections(0)
     }
 
-    private val cachedPaths = mutableMapOf<Int, Long>()
+    private val cachedConnections = mutableMapOf<Int, Long>()
 
-    private fun calculateAdapterConnections(orderedAdapters: List<Int>): Long {
-        if (isFinished(orderedAdapters)) return 1
-
-        val possibleConnections = orderedAdapters.take(4)
-
-        val validConnections = possibleConnections
-            .drop(1)
-            .filter { it - possibleConnections.first() <= 3 }
-
-        return validConnections
-            .mapIndexed { index, i -> getFromCacheOrCalculatePaths(i, orderedAdapters.drop(index + 1)) }
-            .sum()
+    private fun calculateAdapterConnections(currentIndex: Int): Long {
+        if (isFinished(currentIndex)) return 1
+        val validAdapters = getNextValidAdapterIndexes(currentIndex)
+        return validAdapters.map { getFromCacheOrCalculateConnections(it) }.sum()
     }
 
-    private fun isFinished(list: List<Int>) = list.size == 1
+    private fun isFinished(index: Int) = input.size - 1 == index
 
-    private fun getFromCacheOrCalculatePaths(start: Int, list: List<Int>): Long {
-        if (!cachedPaths.containsKey(start)) cachedPaths[start] = calculateAdapterConnections(list)
-        return cachedPaths[start]!!
+    private fun getNextValidAdapterIndexes(currentIndex: Int): List<Int> {
+        return nextIndexes(currentIndex)
+            .filter { input[it] - input[currentIndex] <= 3 }
+    }
+
+    private fun nextIndexes(currentIndex: Int) =
+        if (input.size <= currentIndex + 3) (currentIndex + 1 until input.size)
+        else (currentIndex + 1 until currentIndex + 4)
+
+    private fun getFromCacheOrCalculateConnections(start: Int): Long {
+        if (!cachedConnections.containsKey(start)) cachedConnections[start] = calculateAdapterConnections(start)
+        return cachedConnections[start]!!
     }
 }
