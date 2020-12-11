@@ -1,8 +1,5 @@
 package day
 
-import java.lang.Integer.min
-import kotlin.math.max
-
 class Day11(private val dirtyInput: List<String>) : Solver<Int> {
 
     override fun calculateFirst(): Int {
@@ -33,7 +30,6 @@ class Model(input: List<String>, private val shouldBeOccupied: (Seat, WaitingAre
             .toSet()
 
         currentStateOfWaitingArea.occupyOnly(seatsToBeOccupied)
-
         return currentlyOccupiedSeats - seatsToBeOccupied.size
     }
 
@@ -48,34 +44,36 @@ class WaitingArea(initialValue: List<String>) {
     private var floor = initialValue.map { it.toCharArray() }
 
     fun getAllPossibleSeats(): Set<Seat> {
-        val possibleSeats = mutableSetOf<Seat>()
-        floor.forEachIndexed { y, row ->
-            row.forEachIndexed { x, seat ->
-                val pos = Position(x, y)
-                if (seat != Floor) possibleSeats.add(Seat(pos, getValueOfPosition(pos)))
+        return floor
+            .flatMapIndexed { y: Int, row: CharArray ->
+                row
+                    .toList()
+                    .mapIndexedNotNull { x, seatValue ->
+                        if (seatValue != Floor) Seat(Position(x, y), seatValue)
+                        else null
+                    }
             }
-        }
-        return possibleSeats
+            .toSet()
     }
 
     fun findNeighbours(pos: Position): Set<Seat> {
-        val neighbours = mutableSetOf<Seat>()
-        (max(0, pos.y - 1)..min(floor.size - 1, pos.y + 1)).forEach { y ->
-            (max(0, pos.x - 1)..min(floor.first().size - 1, pos.x + 1)).forEach { x ->
-                val neighbourPos = Position(x, y)
-                if (pos != neighbourPos) neighbours.add(Seat(neighbourPos, getValueOfPosition(neighbourPos)))
-            }
-        }
-        return neighbours
+        return getNeighbouringPositions(pos)
+            .filter { !isOutOfBounds(it) }
+            .map { Seat(it, getValueOfPosition(it)) }
+            .toSet()
     }
 
     fun findSeatsThatCanBeSeen(pos: Position): Set<Seat> {
-        return listOfNotNull(
-            seeInDirection(-1, -1, pos), seeInDirection(0, -1, pos), seeInDirection(1, -1, pos),
-            seeInDirection(-1, 0, pos), seeInDirection(1, 0, pos),
-            seeInDirection(-1, 1, pos), seeInDirection(0, 1, pos), seeInDirection(1, 1, pos)
-        )
+        return getNeighbouringPositions(Position(0, 0))
+            .mapNotNull { seeInDirection(it.x, it.y, pos) }
             .map { Seat(it, getValueOfPosition(it)) }
+            .toSet()
+    }
+
+    private fun getNeighbouringPositions(startPos: Position): Set<Position> {
+        return (-1 + startPos.x..1 + startPos.x)
+            .flatMap { x -> (-1 + startPos.y..1 + startPos.y).map { y -> Position(x, y) } }
+            .minus(startPos)
             .toSet()
     }
 
@@ -110,7 +108,7 @@ class WaitingArea(initialValue: List<String>) {
     }
 
     fun getNumberOfOccupiedSeats(): Int {
-        return floor.map { it.filter { it == Occupied }.size }.sum()
+        return floor.map { row -> row.filter { seatValue -> seatValue == Occupied }.size }.sum()
     }
 
 }
